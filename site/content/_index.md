@@ -124,9 +124,9 @@ row carries it from **v7.3-rc1**.
 | NixOS | Unstable (nixpkgs) | 6.18.52 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.52 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.52 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
-| Rocky Linux / RHEL | 10 | 6.12.0-211.55.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux / RHEL | 9 | 5.14.0-687.48.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux / RHEL | 8 | 4.18.0-553.163.1.el8_10 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux / RHEL | 10 | 6.12.0-211.56.1.el10_2.0.1 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux / RHEL | 9 | 5.14.0-687.49.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux / RHEL | 8 | 4.18.0-553.164.1.el8_10 | — | — | :x: Vulnerable — no RHSA yet |
 | Amazon Linux | 2023 (default) | 6.1.186-228.376 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-129.197 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.18 opt-in) | 6.18.48-109.150 | — | — | :x: Vulnerable — no ALAS yet |
@@ -447,11 +447,12 @@ readers never need it.
   2026-09-03, nixos-26.05-small 2026-09-02).
 - **Rocky Linux / RHEL family**: no Red Hat record reachable via the
   security data API (`access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-80844.json`
-  → 404) and no AlmaLinux/OSV erratum, so no fixed NVR exists yet; all
-  three in-support lines carry IPv6 AH and are in-window. Rocky BaseOS
-  repodata (`primary.xml.gz`, highest `rel`) current builds:
-  EL10 `6.12.0-211.55.1.el10_2`, EL9 `5.14.0-687.48.1.el9_8`, EL8
-  `4.18.0-553.163.1.el8_10`.
+  → 404), no CSAF/VEX record
+  (`security.access.redhat.com/data/csaf/v2/vex/...` → 404), and no
+  AlmaLinux/OSV erratum, so no fixed NVR exists yet; all three
+  in-support lines carry IPv6 AH and are in-window. *Current kernel*
+  for each row is read from Rocky BaseOS repodata (`primary.xml.gz`,
+  highest `rel` per release).
 - **Amazon Linux**: `scripts/alas-cve CVE-2026-80844` against the AL2023
   `updateinfo.xml.gz` returns no advisory (exit 1) for any kernel stream.
   Current builds queried from `primary.xml.gz`, highest `rel` per stream
