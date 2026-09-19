@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-18
+lastmod: 2026-09-19
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -127,9 +127,9 @@ row carries it from **v7.3-rc1**.
 | Rocky Linux / RHEL | 10 | 6.12.0-211.55.1.el10_2 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux / RHEL | 9 | 5.14.0-687.48.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux / RHEL | 8 | 4.18.0-553.163.1.el8_10 | — | — | :x: Vulnerable — no RHSA yet |
-| Amazon Linux | 2023 (default) | 6.1.186-228.374 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-127.188 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.18 opt-in) | 6.18.48-107.148 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (default) | 6.1.186-228.376 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-129.197 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (6.18 opt-in) | 6.18.48-109.150 | — | — | :x: Vulnerable — no ALAS yet |
 {.distros}
 
 ### Linux kernel
@@ -252,9 +252,8 @@ and namespace settings as exposure reducers, not a fix.
 
 All three AL2023 kernel streams are **vulnerable**: the repodata
 `updateinfo.xml` carries no advisory naming CVE-2026-80844 for any of
-`kernel` (6.1 line, `6.1.186-228.374`), `kernel6.12`
-(`6.12.103-127.188`), or `kernel6.18` (`6.18.48-107.148`). The `kernel6.18`
-opt-in is one point release below the 6.18 branch's `6.18.49` first fix,
+`kernel` (6.1 line), `kernel6.12`, or `kernel6.18`. The `kernel6.18`
+stream is one point release below the 6.18 branch's `6.18.49` first fix,
 and no version threshold could confirm the other two even once a fix ships
 — Amazon routinely backports into a build below the upstream first-fixed
 release — so only an ALAS naming this CVE will flip these rows. None has
@@ -455,9 +454,8 @@ readers never need it.
   `4.18.0-553.163.1.el8_10`.
 - **Amazon Linux**: `scripts/alas-cve CVE-2026-80844` against the AL2023
   `updateinfo.xml.gz` returns no advisory (exit 1) for any kernel stream.
-  Current builds from `primary.xml.gz`: `kernel` `6.1.186-228.374`,
-  `kernel6.12` `6.12.103-127.188`, `kernel6.18` `6.18.48-107.148` — all
-  vulnerable pending an ALAS.
+  Current builds queried from `primary.xml.gz`, highest `rel` per stream
+  (`kernel`, `kernel6.12`, `kernel6.18`) — all vulnerable pending an ALAS.
 {{< /details >}}
 
 ## References
