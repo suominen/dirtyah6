@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-20
+lastmod: 2026-09-21
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -100,7 +100,7 @@ row carries it from **v7.3-rc1**.
 
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
-| Linux kernel | mainline | 7.3-rc3 | 7.3-rc1 | 2026-08-30 | :white_check_mark: Fixed — carries `7bad4bda74dc` |
+| Linux kernel | mainline | 7.3-rc4 | 7.3-rc1 | 2026-08-30 | :white_check_mark: Fixed — carries `7bad4bda74dc` |
 | Linux kernel | 7.2.x | 7.2.6 | 7.2.3 | 2026-09-02 | :white_check_mark: Fixed |
 | Linux kernel | 7.1.x | 7.1.13 | 7.1.13 | 2026-09-02 | :white_check_mark: Fixed — EOL |
 | Linux kernel | 6.18.x | 6.18.52 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed — LTS |
