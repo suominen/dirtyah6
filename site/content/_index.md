@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-21
+lastmod: 2026-09-22
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -115,8 +115,6 @@ row carries it from **v7.3-rc1**.
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.107-1~deb12u1 | — | — | :x: Vulnerable |
 | Proxmox VE | 9 (default) | 7.0.14-19-pve | 7.0.14-16-pve | 2026-08-28 | :white_check_mark: Fixed |
-| Proxmox VE | 8 (default) | 6.8.12-43-pve | — | — | :x: Vulnerable |
-| Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9~bpo12+1 | — | — | :x: Vulnerable |
 | NixOS | master | 6.18.52 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.52 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.52 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
@@ -185,31 +183,25 @@ host still on bullseye should upgrade.
 ### Proxmox VE
 
 Proxmox ships its own Ubuntu-derived kernels, so Debian's status does not
-carry over, and Proxmox VE is **x86-only**. The two maintained default
-series have split. **PVE 9's `proxmox-kernel-7.0`** picked up the fix as a
-direct cherry-pick at **7.0.14-16** (2026-08-28) — ahead of its Ubuntu
-*resolute* base, whose own `linux` update for this CVE is still *pending*
-— and is **fixed** from that build onward; a later rebase onto a newer
-Ubuntu resolute snapshot folded the cherry-pick into the base itself. **PVE
-8's `proxmox-kernel-6.8`** (at `6.8.12-43-pve`) tracks Ubuntu *noble*,
-marked *needed*, and carries no cherry-pick of its own, so it stays
-**vulnerable** until Proxmox rebases onto a fixed Ubuntu source or
-cherry-picks the AH6 patch.
+carry over, and Proxmox VE is **x86-only**. **PVE 9's
+`proxmox-kernel-7.0`** picked up the fix as a direct cherry-pick at
+**7.0.14-16** (2026-08-28) — ahead of its Ubuntu *resolute* base, whose
+own `linux` update for this CVE is still *pending* — and is **fixed**
+from that build onward; a later rebase onto a newer Ubuntu resolute
+snapshot folded the cherry-pick into the base itself.
 
-PVE 8 additionally offers **`proxmox-kernel-6.14`** as a
-`bookworm-backports` opt-in (`6.14.11-9~bpo12+1`, last built 2026-05-15).
-Its Ubuntu HWE 6.14 base on noble is marked *end of life* in Ubuntu's CVE
-tracker, so no Ubuntu-side rebase will bring the fix and only a direct
-Proxmox cherry-pick — none so far — would close the row. It is
-**vulnerable**.
+**PVE 8** reached end of life in **August 2026**, before this tracker
+existed and before any fix reached its kernels: its default
+`proxmox-kernel-6.8` and the `bookworm-backports` opt-in
+`proxmox-kernel-6.14` are permanently **vulnerable**, and no fix is
+coming. A host still on PVE 8 should upgrade to PVE 9.
 
-Both releases also still publish pre-GA preview kernel series that Proxmox
-abandoned before this disclosure and that will not receive the fix — PVE
-9's `proxmox-kernel-6.17` (last built 2026-07-28) and `proxmox-kernel-6.14`
-(2026-05-15), and PVE 8's `proxmox-kernel-6.2`, `6.5`, and `6.11`. A host
-still booting one of these preview kernels stays vulnerable until it
-switches to its release's current default, which will carry the fix once
-Proxmox ships it.
+PVE 9 also still publishes pre-GA preview kernel series that Proxmox
+abandoned before this disclosure and that will not receive the fix —
+`proxmox-kernel-6.17` (last built 2026-07-28) and `proxmox-kernel-6.14`
+(2026-05-15). A host still booting one of these preview kernels stays
+vulnerable until it switches to the current default, which carries the
+fix.
 
 ### NixOS
 
@@ -428,28 +420,29 @@ readers never need it.
     LTS ended 2026-08-31 (wiki.debian.org/LTS schedule), before any 5.10
     fix shipped — retired, no row.
 - **Proxmox VE** (`~/src/proxmox/pve-kernel`, `pve-no-subscription`
-  `Packages.gz`): `proxmox-default-kernel` depends on `proxmox-kernel-7.0`
-  on trixie (PVE 9) and `proxmox-kernel-6.8` on bookworm (PVE 8); *Current
-  kernel* for both default rows is read from `Packages.gz` each run. The
-  AH6 fix ships as a vendored
-  patch file rather than a named cherry-pick commit, so it does not surface
-  in a commit-subject grep — confirmed instead by walking
-  `patches/kernel/` per version. `proxmox-kernel-7.0` carries
-  `patches/kernel/*-xfrm-ah6-validate-routing-header-segments_left.patch`
-  (cherry-picked from stable's `0bf11081ad37`, the 7.1.13 backport SHA)
-  starting at **7.0.14-16** (changelog-dated 2026-08-28); the following
-  rebase (7.0.14-18, "update submodules and patches to current Ubuntu
-  resolute") drops the standalone patch file because the fix is now part
-  of the upstream base it rebases onto. `proxmox-kernel-6.8` carries no
-  such patch at any version, and Ubuntu's CVE tracker
-  (`ubuntu.com/security/cves/CVE-2026-80844.json`) still marks `linux`
-  *noble* (the 6.8 base) *needed*, so PVE 8's default stays unfixed. PVE
-  8's `proxmox-kernel-6.14` opt-in (`6.14.11-9~bpo12+1`, `bookworm-6.14`)
-  also carries no cherry-pick and its Ubuntu HWE 6.14 base on noble is *end
-  of life* per Ubuntu's tracker. Abandoned preview series carrying no fix:
-  PVE 9's `proxmox-kernel-6.17` (`trixie-6.17`, last `6.17.13-21`,
-  2026-07-28) and `proxmox-kernel-6.14` (`trixie-6.14`); PVE 8's
-  `proxmox-kernel-6.2` / `6.5` / `6.11`.
+  `Packages.gz`):
+  - `proxmox-default-kernel` depends on `proxmox-kernel-7.0` on trixie
+    (PVE 9); *Current kernel* for the default row is read from
+    `Packages.gz` each run.
+  - The AH6 fix ships as a vendored patch file rather than a named
+    cherry-pick commit, so it does not surface in a commit-subject
+    grep — confirmed instead by walking `patches/kernel/` per version.
+  - `proxmox-kernel-7.0` carries
+    `patches/kernel/*-xfrm-ah6-validate-routing-header-segments_left.patch`
+    (cherry-picked from stable's `0bf11081ad37`, the 7.1.13 backport
+    SHA) starting at **7.0.14-16** (changelog-dated 2026-08-28); the
+    following rebase (7.0.14-18, "update submodules and patches to
+    current Ubuntu resolute") drops the standalone patch file because
+    the fix is now part of the upstream base it rebases onto.
+  - PVE 8 reached end of life in 2026-08 (Proxmox VE FAQ lifecycle
+    table, pve.proxmox.com/wiki/FAQ), before this tracker existed.
+  - Neither `bookworm-6.8` nor `bookworm-6.14` carried the patch at
+    its final build.
+  - Ubuntu's CVE tracker marks the 6.8 base (*noble*) *needed* and the
+    HWE 6.14 base *end of life*.
+  - Abandoned preview series carrying no fix: PVE 9's
+    `proxmox-kernel-6.17` (`trixie-6.17`, last `6.17.13-21`,
+    2026-07-28) and `proxmox-kernel-6.14` (`trixie-6.14`).
 - **NixOS** (`~/src/nixos/nixpkgs`): `linux_default = packages.linux_6_18`;
   every tracked ref resolves `6.18` at `6.18.52` from `kernels-org.json`,
   above the `6.18.49` first-fixed release, so all seven rows are fixed.
