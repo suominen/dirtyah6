@@ -25,7 +25,7 @@ cover:
 | Discoverer | Asim Manizada |
 | Public disclosure | 2026-09-18 ([oss-security][ossec], with a [write-up][writeup]) |
 | Public PoC | [manizada/DirtyAH6][poc] (demonstrates the local-root chain) |
-| KEV / EPSS / CVSS | Not in KEV · EPSS **0.20%** (9th percentile) · CVSS **pending** (no CNA or NVD score published) |
+| KEV / EPSS / CVSS | Not in KEV · EPSS **0.20%** (9th percentile) · CVSS **8.3** (Red Hat, draft) — no CNA or NVD score published |
 | Related | One of four local-root bugs disclosed together by the same researcher: [TUNderflow (CVE-2026-81000)][tunderflow], [PPPoEject (CVE-2026-68121)][pppoeject], and [DiagSpill (CVE-2026-74469)][diagspill]. DirtyAH6 is the IPv6-AH bug of the set |
 {.summary}
 
@@ -101,10 +101,10 @@ row carries it from **v7.3-rc1**.
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
 | Linux kernel | mainline | 7.3-rc4 | 7.3-rc1 | 2026-08-30 | :white_check_mark: Fixed — carries `7bad4bda74dc` |
-| Linux kernel | 7.2.x | 7.2.6 | 7.2.3 | 2026-09-02 | :white_check_mark: Fixed |
+| Linux kernel | 7.2.x | 7.2.7 | 7.2.3 | 2026-09-02 | :white_check_mark: Fixed |
 | Linux kernel | 7.1.x | 7.1.13 | 7.1.13 | 2026-09-02 | :white_check_mark: Fixed — EOL |
-| Linux kernel | 6.18.x | 6.18.52 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed — LTS |
-| Linux kernel | 6.12.x | 6.12.110 | 6.12.108 | 2026-09-02 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.18.x | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.12.x | 6.12.111 | 6.12.108 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.6.x | 6.6.157 | 6.6.156 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.1.x | 6.1.188 | 6.1.187 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.221 | 5.15.220 | 2026-09-02 | :white_check_mark: Fixed — LTS |
@@ -114,7 +114,7 @@ row carries it from **v7.3-rc1**.
 | Debian | 13 (trixie) | 6.12.107-1 | — | — | :x: Vulnerable |
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.107-1~deb12u1 | — | — | :x: Vulnerable |
-| Proxmox VE | 9 (default) | 7.0.14-17-pve | 7.0.14-16-pve | 2026-08-28 | :white_check_mark: Fixed |
+| Proxmox VE | 9 (default) | 7.0.14-19-pve | 7.0.14-16-pve | 2026-08-28 | :white_check_mark: Fixed |
 | Proxmox VE | 8 (default) | 6.8.12-43-pve | — | — | :x: Vulnerable |
 | Proxmox VE | 8 (6.14 opt-in) | 6.14.11-9~bpo12+1 | — | — | :x: Vulnerable |
 | NixOS | master | 6.18.52 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
@@ -234,13 +234,13 @@ older LTS is fixed too, as long as it tracks a current-enough ref.
 
 RHEL-family kernels are long-lived forks that carry IPv6 AH, so all three
 in-support lines — EL10 (6.12-based), EL9 (5.14-based), EL8 (4.18-based) —
-are in-window regardless of their base version. As of this writing Red Hat
-has published **no advisory and no CVE assessment** reachable through the
-security data API for CVE-2026-80844, so there is no fixed NVR to confirm
-and every stream is **vulnerable pending an advisory**. Rocky rebuilds
-RHEL's kernels unchanged, so its fixes track Red Hat's; AlmaLinux is
-typically the fastest rebuild and the leading indicator, and neither has an
-erratum for this CVE yet.
+are in-window regardless of their base version. Red Hat's security data
+marks the `kernel` package **Affected** (fix state) on RHEL 8, 9, and 10,
+with **no `affected_release`** yet — no RHSA has shipped, so there is no
+fixed NVR to confirm and every stream is **vulnerable pending an
+advisory**. Rocky rebuilds RHEL's kernels unchanged, so its fixes track
+Red Hat's; AlmaLinux is typically the fastest rebuild and the leading
+indicator, and neither has an erratum for this CVE yet.
 
 The standard ordinary-user path to this bug goes through unprivileged user
 namespaces. RHEL 8 ships with unprivileged user namespaces disabled by
@@ -400,9 +400,12 @@ readers never need it.
 - **7.1.x reached end of life** at `7.1.13`, per `finger_banner` (marked
   `(EOL)`), the same release that first carried the fix — so the row's
   *Current kernel* is final and its verdict settled.
-- **Scoring:** no CVSS is published — the kernel CNA record has no `.cvss`
-  file and NVD (record published 2026-09-04) carries no metrics. EPSS
-  **0.20%** (9th percentile, via api.first.org, 2026-09-16); not in KEV.
+- **Scoring:** the kernel CNA record has no `.cvss` file and NVD (record
+  published 2026-09-04) carries no metrics. Red Hat's security data API
+  now publishes a **draft** CVSS3 score of **8.3**
+  (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`) alongside its `kernel`
+  fix-state entries. EPSS **0.20%** (9th percentile, via api.first.org,
+  2026-09-16); not in KEV.
 
 #### Distributions
 
@@ -426,8 +429,9 @@ readers never need it.
     fix shipped — retired, no row.
 - **Proxmox VE** (`~/src/proxmox/pve-kernel`, `pve-no-subscription`
   `Packages.gz`): `proxmox-default-kernel` depends on `proxmox-kernel-7.0`
-  on trixie (PVE 9, current build `7.0.14-17-pve`) and `proxmox-kernel-6.8`
-  on bookworm (PVE 8, `6.8.12-43-pve`). The AH6 fix ships as a vendored
+  on trixie (PVE 9) and `proxmox-kernel-6.8` on bookworm (PVE 8); *Current
+  kernel* for both default rows is read from `Packages.gz` each run. The
+  AH6 fix ships as a vendored
   patch file rather than a named cherry-pick commit, so it does not surface
   in a commit-subject grep — confirmed instead by walking
   `patches/kernel/` per version. `proxmox-kernel-7.0` carries
@@ -455,14 +459,16 @@ readers never need it.
   rows use `scripts/nixos-first-shipped` (nixos-unstable 2026-09-04,
   nixos-unstable-small 2026-09-02, nixpkgs-unstable 2026-09-04, nixos-26.05
   2026-09-03, nixos-26.05-small 2026-09-02).
-- **Rocky Linux / RHEL family**: no Red Hat record reachable via the
-  security data API (`access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-80844.json`
-  → 404), no CSAF/VEX record
-  (`security.access.redhat.com/data/csaf/v2/vex/...` → 404), and no
-  AlmaLinux/OSV erratum, so no fixed NVR exists yet; all three
-  in-support lines carry IPv6 AH and are in-window. *Current kernel*
-  for each row is read from Rocky BaseOS repodata (`primary.xml.gz`,
-  highest `rel` per release).
+- **Rocky Linux / RHEL family**: Red Hat's security data API
+  (`access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-80844.json`)
+  now carries a record — `fix_state: Affected` for the `kernel` package
+  on RHEL 8, 9, and 10, with no `affected_release` (no RHSA), draft
+  CVSS3 **8.3** (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`), threat_severity
+  Important, public_date 2026-09-04. No AlmaLinux/OSV erratum, so no
+  fixed NVR exists yet; all three in-support lines carry IPv6 AH and are
+  in-window. *Current kernel* for each row is read from Rocky BaseOS
+  repodata (`primary.xml.gz`, highest `rel` per release, ordered with
+  `rpmsort`).
 - **Amazon Linux**: `scripts/alas-cve CVE-2026-80844` against the AL2023
   `updateinfo.xml.gz` returns no advisory (exit 1) for any kernel stream.
   Current builds queried from `primary.xml.gz`, highest `rel` per stream
