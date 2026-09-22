@@ -117,11 +117,11 @@ row carries it from **v7.3-rc1**.
 | Proxmox VE | 9 (default) | 7.0.14-19-pve | 7.0.14-16-pve | 2026-08-28 | :white_check_mark: Fixed |
 | NixOS | master | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
-| NixOS | Unstable | 6.18.52 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
+| NixOS | Unstable | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
-| NixOS | Unstable (nixpkgs) | 6.18.52 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
+| NixOS | Unstable (nixpkgs) | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.52 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
-| NixOS | 26.05 (small) | 6.18.52 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
+| NixOS | 26.05 (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | Rocky Linux / RHEL | 10 | 6.12.0-211.56.1.el10_2.0.1 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux / RHEL | 9 | 5.14.0-687.49.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux / RHEL | 8 | 4.18.0-553.164.1.el8_10 | — | — | :x: Vulnerable — no RHSA yet |
