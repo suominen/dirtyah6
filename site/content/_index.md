@@ -176,9 +176,9 @@ is fixed. Upgrade the opt-in or fall back to the default.
 **bullseye** (Debian 11) reached the end of its standard LTS window on
 **2026-08-31**, before this tracker existed and before the fix shipped to
 any 5.10 point release (the 5.10 branch was first fixed at `5.10.269` on
-2026-09-02). It gets no row: the Debian security tracker carries no
-bullseye entry for this CVE, and no fix is coming through standard LTS. A
-host still on bullseye should upgrade.
+2026-09-02). The Debian security tracker carries no bullseye entry for
+this CVE, and no fix is coming through standard LTS. A host still on
+bullseye should upgrade.
 
 ### Proxmox VE
 
