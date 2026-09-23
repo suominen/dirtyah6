@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-22
+lastmod: 2026-09-23
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -110,7 +110,7 @@ row carries it from **v7.3-rc1**.
 | Linux kernel | 5.15.x | 5.15.221 | 5.15.220 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.270 | 5.10.269 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Debian | sid (unstable) | 7.2.6-1 | 7.1.13-1 | 2026-09-03 | :white_check_mark: Fixed |
-| Debian | forky (testing) | 7.1.13-1 | 7.1.13-1 | 2026-09-11 | :white_check_mark: Fixed |
+| Debian | forky (testing) | 7.2.6-1 | 7.1.13-1 | 2026-09-11 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.107-1 | — | — | :x: Vulnerable |
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.107-1~deb12u1 | — | — | :x: Vulnerable |
@@ -120,7 +120,7 @@ row carries it from **v7.3-rc1**.
 | NixOS | Unstable | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | Unstable (nixpkgs) | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
-| NixOS | 26.05 | 6.18.52 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
+| NixOS | 26.05 | 6.18.53 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | Rocky Linux / RHEL | 10 | 6.12.0-211.56.1.el10_2.0.1 | — | — | :x: Vulnerable — no RHSA yet |
 | Rocky Linux / RHEL | 9 | 5.14.0-687.49.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
