@@ -25,7 +25,7 @@ cover:
 | Discoverer | Asim Manizada |
 | Public disclosure | 2026-09-18 ([oss-security][ossec], with a [write-up][writeup]) |
 | Public PoC | [manizada/DirtyAH6][poc] (demonstrates the local-root chain) |
-| KEV / EPSS / CVSS | Not in KEV · EPSS **0.20%** (9th percentile) · CVSS **8.3** (Red Hat, draft) — no CNA or NVD score published |
+| KEV / EPSS / CVSS | Not in KEV · EPSS **0.20%** (9th percentile) · CVSS **8.3** (Red Hat) — no CNA or NVD score published |
 | Related | One of four local-root bugs disclosed together by the same researcher: [TUNderflow (CVE-2026-81000)][tunderflow], [PPPoEject (CVE-2026-68121)][pppoeject], and [DiagSpill (CVE-2026-74469)][diagspill]. DirtyAH6 is the IPv6-AH bug of the set |
 {.summary}
 
@@ -122,9 +122,9 @@ row carries it from **v7.3-rc1**.
 | NixOS | Unstable (nixpkgs) | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.53 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
-| Rocky Linux / RHEL | 10 | 6.12.0-211.56.1.el10_2.0.1 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux / RHEL | 9 | 5.14.0-687.49.1.el9_8 | — | — | :x: Vulnerable — no RHSA yet |
-| Rocky Linux / RHEL | 8 | 4.18.0-553.164.1.el8_10 | — | — | :x: Vulnerable — no RHSA yet |
+| Rocky Linux / RHEL | 10 | 6.12.0-211.58.1.el10_2 | — | — | :x: Vulnerable — RHSA-2026:71233, Rocky pending |
+| Rocky Linux / RHEL | 9 | 5.14.0-687.49.1.el9_8 | — | — | :x: Vulnerable — RHSA-2026:71232, Rocky pending |
+| Rocky Linux / RHEL | 8 | 4.18.0-553.166.1.el8_10 | — | — | :x: Vulnerable — RHSA-2026:71213, Rocky pending |
 | Amazon Linux | 2023 (default) | 6.1.186-228.376 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-129.197 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.18 opt-in) | 6.18.48-109.150 | — | — | :x: Vulnerable — no ALAS yet |
@@ -226,16 +226,18 @@ older LTS is fixed too, as long as it tracks a current-enough ref.
 
 RHEL-family kernels are long-lived forks that carry IPv6 AH, so all three
 in-support lines — EL10 (6.12-based), EL9 (5.14-based), EL8 (4.18-based) —
-are in-window regardless of their base version. Red Hat's security data
-marks the `kernel` package **Affected** (fix state) on RHEL 8, 9, and 10,
-with **no `affected_release`** yet — no RHSA has shipped, so there is no
-fixed NVR to confirm and every stream is **vulnerable pending an
-advisory**. Rocky rebuilds RHEL's kernels unchanged, so its fixes track
-Red Hat's; AlmaLinux is typically the fastest rebuild and the leading
-indicator, and neither has an erratum for this CVE yet. Red Hat has
-shipped one fix so far, **RHSA-2026:71016**, but only for the niche
-`kernel-rt` real-time variant on RHEL 8 NFV — the mainline `kernel`
-package the table tracks is still unfixed on all three lines.
+are in-window regardless of their base version. Red Hat has now shipped
+the mainline `kernel` fix on all three lines: **RHSA-2026:71233** (EL10,
+`kernel-0:6.12.0-211.59.1.el10_2`), **RHSA-2026:71232** (EL9,
+`kernel-0:5.14.0-687.51.1.el9_8`), and **RHSA-2026:71213** (EL8,
+`kernel-0:4.18.0-553.167.1.el8_10`). Rocky rebuilds RHEL's kernels
+unchanged, so its fixes track Red Hat's, but Rocky's BaseOS builds have
+not yet reached any of those NVRs, so all three Rocky rows stay
+**vulnerable pending a Rocky rebuild**. AlmaLinux is typically the
+fastest rebuild and the leading indicator; check its erratum before
+assuming Rocky is still behind. Red Hat separately shipped
+**RHSA-2026:71016** for the niche `kernel-rt` real-time variant on RHEL 8
+NFV — a variant this tracker gives no row.
 
 The standard ordinary-user path to this bug goes through unprivileged user
 namespaces. RHEL 8 ships with unprivileged user namespaces disabled by
@@ -397,10 +399,10 @@ readers never need it.
   *Current kernel* is final and its verdict settled.
 - **Scoring:** the kernel CNA record has no `.cvss` file and NVD (record
   published 2026-09-04) carries no metrics. Red Hat's security data API
-  now publishes a **draft** CVSS3 score of **8.3**
+  publishes a **verified** CVSS3 score of **8.3**
   (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`) alongside its `kernel`
-  fix-state entries. EPSS **0.20%** (9th percentile, via api.first.org,
-  2026-09-16); not in KEV.
+  entries. EPSS **0.20%** (9th percentile, via api.first.org,
+  2026-09-23); not in KEV.
 
 #### Distributions
 
@@ -457,18 +459,19 @@ readers never need it.
   2026-09-03, nixos-26.05-small 2026-09-02).
 - **Rocky Linux / RHEL family**: Red Hat's security data API
   (`access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-80844.json`)
-  now carries a record — `fix_state: Affected` for the `kernel` package
-  on RHEL 8, 9, and 10, with no `affected_release` (no RHSA), draft
-  CVSS3 **8.3** (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`), threat_severity
-  Important, public_date 2026-09-04. No AlmaLinux/OSV erratum, so no
-  fixed NVR exists yet; all three in-support lines carry IPv6 AH and are
-  in-window. *Current kernel* for each row is read from Rocky BaseOS
-  repodata (`primary.xml.gz`, highest `rel` per release, ordered with
-  `rpmsort`).
-  - The API's `affected_release` now carries one entry, **RHSA-2026:71016**
+  `affected_release` now carries fixes for the mainline `kernel` package
+  on all three in-support lines: **RHSA-2026:71233** (EL10,
+  `kernel-0:6.12.0-211.59.1.el10_2`, 2026-09-24), **RHSA-2026:71232** (EL9,
+  `kernel-0:5.14.0-687.51.1.el9_8`, 2026-09-24), **RHSA-2026:71213** (EL8,
+  `kernel-0:4.18.0-553.167.1.el8_10`, 2026-09-24). CVSS3 **8.3**
+  (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`, status `verified`),
+  threat_severity Important, public_date 2026-09-04. *Current kernel* for
+  each row is read from Rocky BaseOS repodata (`primary.xml.gz`, highest
+  `rel` per release, ordered with `rpmsort`); each release's highest
+  Rocky build still trails its RHSA's fixed NVR, so no row flips yet.
+  - The API's `affected_release` also carries **RHSA-2026:71016**
     (2026-09-23), for `kernel-rt` on RHEL 8 NFV only — a niche variant this
-    tracker gives no row; `package_state` for the mainline `kernel` package
-    is still `Affected` with no advisory on RHEL 8, 9, or 10.
+    tracker gives no row.
 - **Amazon Linux**: `scripts/alas-cve CVE-2026-80844` against the AL2023
   `updateinfo.xml.gz` returns no advisory (exit 1) for any kernel stream.
   Current builds queried from `primary.xml.gz`, highest `rel` per stream
