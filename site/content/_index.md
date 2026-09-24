@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-23
+lastmod: 2026-09-24
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -109,7 +109,7 @@ row carries it from **v7.3-rc1**.
 | Linux kernel | 6.1.x | 6.1.188 | 6.1.187 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.221 | 5.15.220 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.270 | 5.10.269 | 2026-09-02 | :white_check_mark: Fixed — LTS |
-| Debian | sid (unstable) | 7.2.6-1 | 7.1.13-1 | 2026-09-03 | :white_check_mark: Fixed |
+| Debian | sid (unstable) | 7.2.7-1 | 7.1.13-1 | 2026-09-03 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.2.6-1 | 7.1.13-1 | 2026-09-11 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.107-1 | — | — | :x: Vulnerable |
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
@@ -232,7 +232,10 @@ with **no `affected_release`** yet — no RHSA has shipped, so there is no
 fixed NVR to confirm and every stream is **vulnerable pending an
 advisory**. Rocky rebuilds RHEL's kernels unchanged, so its fixes track
 Red Hat's; AlmaLinux is typically the fastest rebuild and the leading
-indicator, and neither has an erratum for this CVE yet.
+indicator, and neither has an erratum for this CVE yet. Red Hat has
+shipped one fix so far, **RHSA-2026:71016**, but only for the niche
+`kernel-rt` real-time variant on RHEL 8 NFV — the mainline `kernel`
+package the table tracks is still unfixed on all three lines.
 
 The standard ordinary-user path to this bug goes through unprivileged user
 namespaces. RHEL 8 ships with unprivileged user namespaces disabled by
@@ -462,6 +465,10 @@ readers never need it.
   in-window. *Current kernel* for each row is read from Rocky BaseOS
   repodata (`primary.xml.gz`, highest `rel` per release, ordered with
   `rpmsort`).
+  - The API's `affected_release` now carries one entry, **RHSA-2026:71016**
+    (2026-09-23), for `kernel-rt` on RHEL 8 NFV only — a niche variant this
+    tracker gives no row; `package_state` for the mainline `kernel` package
+    is still `Affected` with no advisory on RHEL 8, 9, or 10.
 - **Amazon Linux**: `scripts/alas-cve CVE-2026-80844` against the AL2023
   `updateinfo.xml.gz` returns no advisory (exit 1) for any kernel stream.
   Current builds queried from `primary.xml.gz`, highest `rel` per stream
