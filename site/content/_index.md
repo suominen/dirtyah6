@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-24
+lastmod: 2026-09-25
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -123,7 +123,7 @@ row carries it from **v7.3-rc1**.
 | NixOS | 26.05 | 6.18.53 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | Rocky Linux / RHEL | 10 | 6.12.0-211.58.1.el10_2 | — | — | :x: Vulnerable — RHSA-2026:71233, Rocky pending |
-| Rocky Linux / RHEL | 9 | 5.14.0-687.49.1.el9_8 | — | — | :x: Vulnerable — RHSA-2026:71232, Rocky pending |
+| Rocky Linux / RHEL | 9 | 5.14.0-687.50.1.el9_8 | — | — | :x: Vulnerable — RHSA-2026:71232, Rocky pending |
 | Rocky Linux / RHEL | 8 | 4.18.0-553.166.1.el8_10 | — | — | :x: Vulnerable — RHSA-2026:71213, Rocky pending |
 | Amazon Linux | 2023 (default) | 6.1.186-228.376 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-129.197 | — | — | :x: Vulnerable — no ALAS yet |
