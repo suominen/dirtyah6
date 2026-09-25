@@ -123,8 +123,8 @@ row carries it from **v7.3-rc1**.
 | NixOS | 26.05 | 6.18.53 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
 | NixOS | 26.05 (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | Rocky Linux / RHEL | 10 | 6.12.0-211.58.1.el10_2 | — | — | :x: Vulnerable — RHSA-2026:71233, Rocky pending |
-| Rocky Linux / RHEL | 9 | 5.14.0-687.50.1.el9_8 | — | — | :x: Vulnerable — RHSA-2026:71232, Rocky pending |
-| Rocky Linux / RHEL | 8 | 4.18.0-553.166.1.el8_10 | — | — | :x: Vulnerable — RHSA-2026:71213, Rocky pending |
+| Rocky Linux / RHEL | 9 | 5.14.0-687.51.1.el9_8 | 5.14.0-687.51.1.el9_8 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71232 |
+| Rocky Linux / RHEL | 8 | 4.18.0-553.168.1.el8_10 | 4.18.0-553.168.1.el8_10 | 2026-09-24 | :white_check_mark: Fixed — RHSA-2026:71213 |
 | Amazon Linux | 2023 (default) | 6.1.186-228.376 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-129.197 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.18 opt-in) | 6.18.48-109.150 | — | — | :x: Vulnerable — no ALAS yet |
@@ -226,18 +226,22 @@ older LTS is fixed too, as long as it tracks a current-enough ref.
 
 RHEL-family kernels are long-lived forks that carry IPv6 AH, so all three
 in-support lines — EL10 (6.12-based), EL9 (5.14-based), EL8 (4.18-based) —
-are in-window regardless of their base version. Red Hat has now shipped
-the mainline `kernel` fix on all three lines: **RHSA-2026:71233** (EL10,
+are in-window regardless of their base version. Red Hat has shipped the
+mainline `kernel` fix on all three lines: **RHSA-2026:71233** (EL10,
 `kernel-0:6.12.0-211.59.1.el10_2`), **RHSA-2026:71232** (EL9,
 `kernel-0:5.14.0-687.51.1.el9_8`), and **RHSA-2026:71213** (EL8,
 `kernel-0:4.18.0-553.167.1.el8_10`). Rocky rebuilds RHEL's kernels
-unchanged, so its fixes track Red Hat's, but Rocky's BaseOS builds have
-not yet reached any of those NVRs, so all three Rocky rows stay
-**vulnerable pending a Rocky rebuild**. AlmaLinux is typically the
-fastest rebuild and the leading indicator; check its erratum before
-assuming Rocky is still behind. Red Hat separately shipped
-**RHSA-2026:71016** for the niche `kernel-rt` real-time variant on RHEL 8
-NFV — a variant this tracker gives no row.
+unchanged, so its fixes track Red Hat's: EL9 is **fixed**, its BaseOS
+build reaching the RHSA's exact NVR, `5.14.0-687.51.1.el9_8`, on
+2026-09-25. EL8 is also **fixed** — Rocky skipped the RHSA's own NVR
+(`553.167.1`) and shipped the next build, `4.18.0-553.168.1.el8_10`, on
+2026-09-24, confirmed carrying the fix by its kernel `%changelog`. EL10
+stays **vulnerable pending a Rocky rebuild**: its BaseOS build has not yet
+reached `211.59.1.el10_2`. AlmaLinux is typically the fastest rebuild and
+the leading indicator; check its erratum before assuming a still-pending
+line is behind. Red Hat separately shipped **RHSA-2026:71016** for the
+niche `kernel-rt` real-time variant on RHEL 8 NFV — a variant this tracker
+gives no row.
 
 The standard ordinary-user path to this bug goes through unprivileged user
 namespaces. RHEL 8 ships with unprivileged user namespaces disabled by
@@ -459,16 +463,30 @@ readers never need it.
   2026-09-03, nixos-26.05-small 2026-09-02).
 - **Rocky Linux / RHEL family**: Red Hat's security data API
   (`access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-80844.json`)
-  `affected_release` now carries fixes for the mainline `kernel` package
-  on all three in-support lines: **RHSA-2026:71233** (EL10,
-  `kernel-0:6.12.0-211.59.1.el10_2`, 2026-09-24), **RHSA-2026:71232** (EL9,
-  `kernel-0:5.14.0-687.51.1.el9_8`, 2026-09-24), **RHSA-2026:71213** (EL8,
-  `kernel-0:4.18.0-553.167.1.el8_10`, 2026-09-24). CVSS3 **8.3**
-  (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`, status `verified`),
-  threat_severity Important, public_date 2026-09-04. *Current kernel* for
-  each row is read from Rocky BaseOS repodata (`primary.xml.gz`, highest
-  `rel` per release, ordered with `rpmsort`); each release's highest
-  Rocky build still trails its RHSA's fixed NVR, so no row flips yet.
+  `affected_release` carries fixes for the mainline `kernel` package on all
+  three in-support lines:
+  - **RHSA-2026:71233** (EL10, `kernel-0:6.12.0-211.59.1.el10_2`,
+    2026-09-24).
+  - **RHSA-2026:71232** (EL9, `kernel-0:5.14.0-687.51.1.el9_8`,
+    2026-09-24).
+  - **RHSA-2026:71213** (EL8, `kernel-0:4.18.0-553.167.1.el8_10`,
+    2026-09-24).
+  - CVSS3 **8.3** (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`, status
+    `verified`), threat_severity Important, public_date 2026-09-04.
+  - *Current kernel* for each row is read from Rocky BaseOS repodata
+    (`primary.xml.gz`, highest `rel` per release, ordered with
+    `rpmsort`).
+  - EL10's highest Rocky build still trails its RHSA's fixed NVR, so the
+    row stays vulnerable.
+  - EL9's BaseOS build reached the RHSA's exact NVR,
+    `kernel-5.14.0-687.51.1.el9_8`, shipped 2026-09-25 per the Rocky
+    mirror directory listing — confirmed carrying the fix by an
+    `other.xml.gz` changelog entry naming the CVE.
+  - EL8's BaseOS build skipped the RHSA's own NVR (`553.167.1`) and
+    shipped the fix in the next build, `kernel-4.18.0-553.168.1.el8_10`,
+    on 2026-09-24 per the Rocky mirror directory listing — the
+    changelog entry naming the CVE is attributed to `553.167.1`,
+    confirming the skipped build carried it too.
   - The API's `affected_release` also carries **RHSA-2026:71016**
     (2026-09-23), for `kernel-rt` on RHEL 8 NFV only — a niche variant this
     tracker gives no row.
