@@ -109,7 +109,7 @@ row carries it from **v7.3-rc1**.
 | Linux kernel | 6.1.x | 6.1.188 | 6.1.187 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.15.x | 5.15.221 | 5.15.220 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 5.10.x | 5.10.270 | 5.10.269 | 2026-09-02 | :white_check_mark: Fixed — LTS |
-| Debian | sid (unstable) | 7.2.7-1 | 7.1.13-1 | 2026-09-03 | :white_check_mark: Fixed |
+| Debian | sid (unstable) | 7.2.8-1 | 7.1.13-1 | 2026-09-03 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.2.6-1 | 7.1.13-1 | 2026-09-11 | :white_check_mark: Fixed |
 | Debian | 13 (trixie) | 6.12.107-1 | — | — | :x: Vulnerable |
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
@@ -118,12 +118,12 @@ row carries it from **v7.3-rc1**.
 | NixOS | master | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
-| NixOS | Unstable (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
-| NixOS | Unstable (nixpkgs) | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
+| NixOS | Unstable (small) | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
+| NixOS | Unstable (nixpkgs) | 6.18.54 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
 | NixOS | 26.05 | 6.18.53 | 6.18.49 | 2026-09-03 | :white_check_mark: Fixed |
-| NixOS | 26.05 (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
-| Rocky Linux / RHEL | 10 | 6.12.0-211.58.1.el10_2 | — | — | :x: Vulnerable — RHSA-2026:71233, Rocky pending |
-| Rocky Linux / RHEL | 9 | 5.14.0-687.51.1.el9_8 | 5.14.0-687.51.1.el9_8 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71232 |
+| NixOS | 26.05 (small) | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
+| Rocky Linux / RHEL | 10 | 6.12.0-211.60.1.el10_2 | 6.12.0-211.60.1.el10_2 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71233 |
+| Rocky Linux / RHEL | 9 | 5.14.0-687.52.1.el9_8 | 5.14.0-687.51.1.el9_8 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71232 |
 | Rocky Linux / RHEL | 8 | 4.18.0-553.168.1.el8_10 | 4.18.0-553.168.1.el8_10 | 2026-09-24 | :white_check_mark: Fixed — RHSA-2026:71213 |
 | Amazon Linux | 2023 (default) | 6.1.186-228.376 | — | — | :x: Vulnerable — no ALAS yet |
 | Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-129.197 | — | — | :x: Vulnerable — no ALAS yet |
@@ -231,13 +231,13 @@ mainline `kernel` fix on all three lines: **RHSA-2026:71233** (EL10,
 `kernel-0:6.12.0-211.59.1.el10_2`), **RHSA-2026:71232** (EL9,
 `kernel-0:5.14.0-687.51.1.el9_8`), and **RHSA-2026:71213** (EL8,
 `kernel-0:4.18.0-553.167.1.el8_10`). Rocky rebuilds RHEL's kernels
-unchanged, so its fixes track Red Hat's: EL9 is **fixed**, its BaseOS
-build reaching the RHSA's exact NVR, `5.14.0-687.51.1.el9_8`, on
-2026-09-25. EL8 is also **fixed** — Rocky skipped the RHSA's own NVR
-(`553.167.1`) and shipped the next build, `4.18.0-553.168.1.el8_10`, on
-2026-09-24, confirmed carrying the fix by its kernel `%changelog`. EL10
-stays **vulnerable pending a Rocky rebuild**: its BaseOS build has not yet
-reached `211.59.1.el10_2`. AlmaLinux is typically the fastest rebuild and
+unchanged, so its fixes track Red Hat's, and all three lines are now
+**fixed**: EL9's BaseOS build reached the RHSA's exact NVR,
+`5.14.0-687.51.1.el9_8`, on 2026-09-25. EL8 and EL10 both skipped their
+RHSA's own NVR and shipped the next build instead — EL8's
+`4.18.0-553.168.1.el8_10` on 2026-09-24, and EL10's
+`6.12.0-211.60.1.el10_2` on 2026-09-25 — each confirmed carrying the fix
+by its kernel `%changelog`. AlmaLinux is typically the fastest rebuild and
 the leading indicator; check its erratum before assuming a still-pending
 line is behind. Red Hat separately shipped **RHSA-2026:71016** for the
 niche `kernel-rt` real-time variant on RHEL 8 NFV — a variant this tracker
@@ -476,8 +476,11 @@ readers never need it.
   - *Current kernel* for each row is read from Rocky BaseOS repodata
     (`primary.xml.gz`, highest `rel` per release, ordered with
     `rpmsort`).
-  - EL10's highest Rocky build still trails its RHSA's fixed NVR, so the
-    row stays vulnerable.
+  - EL10's BaseOS build skipped the RHSA's own NVR (`211.59.1`) and
+    shipped the fix in the next build, `kernel-6.12.0-211.60.1.el10_2`,
+    on 2026-09-25 per the Rocky mirror directory listing — the
+    changelog entry naming the CVE is attributed to `211.59.1`,
+    confirming the skipped build carried it too.
   - EL9's BaseOS build reached the RHSA's exact NVR,
     `kernel-5.14.0-687.51.1.el9_8`, shipped 2026-09-25 per the Rocky
     mirror directory listing — confirmed carrying the fix by an
