@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-25
+lastmod: 2026-09-26
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -101,9 +101,9 @@ row carries it from **v7.3-rc1**.
 | Distribution | Release | Current kernel | First fixed | Fixed since | Status |
 |---|---|---|---|---|---|
 | Linux kernel | mainline | 7.3-rc4 | 7.3-rc1 | 2026-08-30 | :white_check_mark: Fixed — carries `7bad4bda74dc` |
-| Linux kernel | 7.2.x | 7.2.7 | 7.2.3 | 2026-09-02 | :white_check_mark: Fixed |
+| Linux kernel | 7.2.x | 7.2.8 | 7.2.3 | 2026-09-02 | :white_check_mark: Fixed |
 | Linux kernel | 7.1.x | 7.1.13 | 7.1.13 | 2026-09-02 | :white_check_mark: Fixed — EOL |
-| Linux kernel | 6.18.x | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed — LTS |
+| Linux kernel | 6.18.x | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.12.x | 6.12.111 | 6.12.108 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.6.x | 6.6.157 | 6.6.156 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Linux kernel | 6.1.x | 6.1.188 | 6.1.187 | 2026-09-02 | :white_check_mark: Fixed — LTS |
@@ -115,8 +115,8 @@ row carries it from **v7.3-rc1**.
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.107-1~deb12u1 | — | — | :x: Vulnerable |
 | Proxmox VE | 9 (default) | 7.0.14-19-pve | 7.0.14-16-pve | 2026-08-28 | :white_check_mark: Fixed |
-| NixOS | master | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
-| NixOS | release-26.05 | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
+| NixOS | master | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
+| NixOS | release-26.05 | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
 | NixOS | Unstable (small) | 6.18.53 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | Unstable (nixpkgs) | 6.18.53 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
@@ -206,9 +206,9 @@ fix.
 ### NixOS
 
 Every tracked ref's default `linuxPackages` is `linux_6_18`, and nixpkgs
-currently pins the 6.18 series at `6.18.52` — above the 6.18 branch's
-`6.18.49` first-fixed release — so **every tracked ref is fixed**; they
-differ only in which point release each has reached and when it published.
+currently pins the 6.18 series above the 6.18 branch's `6.18.49`
+first-fixed release — so **every tracked ref is fixed**; they differ only
+in which point release each has reached and when it published.
 Kernel bumps land on nixpkgs `master` first, and each channel republishes
 them once its Hydra jobset passes, so a channel can sit a few days behind
 `master`, and an unstable channel is not necessarily ahead of a release
@@ -453,7 +453,7 @@ readers never need it.
     `proxmox-kernel-6.17` (`trixie-6.17`, last `6.17.13-21`,
     2026-07-28) and `proxmox-kernel-6.14` (`trixie-6.14`).
 - **NixOS** (`~/src/nixos/nixpkgs`): `linux_default = packages.linux_6_18`;
-  every tracked ref resolves `6.18` at `6.18.52` from `kernels-org.json`,
+  every tracked ref resolves the `6.18` series from `kernels-org.json`,
   above the `6.18.49` first-fixed release, so all seven rows are fixed.
   Each row's *Current kernel* is that pinned `6.18` version. *Fixed since*:
   the branch rows use the commit date of the 6.18.49 bump (`ab787beb39ad`
