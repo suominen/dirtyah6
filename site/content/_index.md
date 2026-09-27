@@ -418,10 +418,10 @@ readers never need it.
   - `proxmox-kernel-7.0` carries
     `patches/kernel/*-xfrm-ah6-validate-routing-header-segments_left.patch`
     (cherry-picked from stable's `0bf11081ad37`, the 7.1.13 backport
-    SHA) starting at **7.0.14-16** (changelog-dated 2026-08-28); the
-    following rebase (7.0.14-18, "update submodules and patches to
+    SHA) starting at **7.0.14-16** (changelog-dated 2026-08-28).
+  - The following rebase (7.0.14-18, "update submodules and patches to
     current Ubuntu resolute") drops the standalone patch file because
-    the fix is now part of the upstream base it rebases onto.
+    the fix is part of the upstream base it rebases onto.
   - PVE 8 reached end of life in 2026-08 (Proxmox VE FAQ lifecycle
     table, pve.proxmox.com/wiki/FAQ), before this tracker existed.
   - Neither `bookworm-6.8` nor `bookworm-6.14` carried the patch at
@@ -479,9 +479,9 @@ readers never need it.
   - Red Hat's CSAF/VEX record
     (`security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-80844.json`)
     lists RHSA-2026:71687 (RHEL 7 ELS `kernel`) and RHSA-2026:71657
-    (its `kernel-rt`) among its `vendor_fix` remediations. It still
-    lists RHEL 9 and 10 `kernel-rt` as `known_affected`, but
-    RHSA-2026:71232 and RHSA-2026:71233 also cover the RHEL 9.8 and
+    (its `kernel-rt`) among its `vendor_fix` remediations.
+  - The same record lists RHEL 9 and 10 `kernel-rt` as `known_affected`,
+    but RHSA-2026:71232 and RHSA-2026:71233 also cover the RHEL 9.8 and
     10.2 RT and NFV products.
 - **Amazon Linux**: `scripts/alas-cve CVE-2026-80844` against the AL2023
   `updateinfo.xml.gz` returns no advisory (exit 1) for any kernel stream.
