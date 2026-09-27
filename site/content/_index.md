@@ -363,21 +363,29 @@ readers never need it.
   vulnerable:fixed pairs key the fix to `2.6.12 → 5.10.269 / 5.15.220 /
   6.1.187 / 6.6.156 / 6.12.108 / 6.18.49 / 7.1.13 / 7.2.3 / 7.3-rc1`.
 - **Stable backports** (fix cherry-picks confirmed by subject grep against
-  `~/src/linux/stable`, each a new SHA): 5.10.269 (`2dc650956e4e`),
-  5.15.220 (`48b0e36cf543`), 6.1.187 (`1b7e066eabcc`), 6.6.156
-  (`f00df8500e5a`), 6.12.108 (`1516e31ac458`), 6.18.49 (`6733ae71268a`),
-  7.1.13 (`0bf11081ad37`), 7.2.3 (`46640c814f25`) — all tagged
-  **2026-09-02**. The `Linux kernel` rows' *Current kernel* cells are read
-  from kernel.org's `finger_banner`.
+  `~/src/linux/stable`, each a new SHA; *Current kernel* from kernel.org's
+  `finger_banner`):
+  - All eight backports were tagged **2026-09-02**.
+  - 7.2.3: `46640c814f25`.
+  - 7.1.13: `0bf11081ad37`.
+  - 6.18.49: `6733ae71268a`.
+  - 6.12.108: `1516e31ac458`.
+  - 6.6.156: `f00df8500e5a`.
+  - 6.1.187: `1b7e066eabcc`.
+  - 5.15.220: `48b0e36cf543`.
+  - 5.10.269: `2dc650956e4e`.
 - **7.1.x reached end of life** at `7.1.13`, per `finger_banner` (marked
   `(EOL)`), the same release that first carried the fix — so the row's
   *Current kernel* is final and its verdict settled.
-- **Scoring:** the kernel CNA record has no `.cvss` file and NVD (record
-  published 2026-09-04) carries no metrics. Red Hat's security data API
-  publishes a **verified** CVSS3 score of **8.3**
-  (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`) alongside its `kernel`
-  entries. EPSS **0.20%** (9th percentile, via api.first.org,
-  2026-09-23); not in KEV.
+- **Scoring** (kernel CNA record, NVD, Red Hat's security data API,
+  api.first.org, KEV):
+  - The kernel CNA record has no `.cvss` file.
+  - NVD (record published 2026-09-04) carries no metrics.
+  - Red Hat publishes a **verified** CVSS3 score of **8.3**
+    (`AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:H`) alongside its `kernel`
+    entries.
+  - EPSS **0.20%** (9th percentile, 2026-09-23).
+  - Not in KEV.
 
 #### Distributions
 
@@ -423,15 +431,19 @@ readers never need it.
   - Abandoned preview series carrying no fix: PVE 9's
     `proxmox-kernel-6.17` (`trixie-6.17`, last `6.17.13-21`,
     2026-07-28) and `proxmox-kernel-6.14` (`trixie-6.14`).
-- **NixOS** (`~/src/nixos/nixpkgs`): `linux_default = packages.linux_6_18`;
-  every tracked ref resolves the `6.18` series from `kernels-org.json`,
-  above the `6.18.49` first-fixed release, so all seven rows are fixed.
-  Each row's *Current kernel* is that pinned `6.18` version. *Fixed since*:
-  the branch rows use the commit date of the 6.18.49 bump (`ab787beb39ad`
-  on master, `1dcdedad8777` on release-26.05, both 2026-09-02); the channel
-  rows use `scripts/nixos-first-shipped` (nixos-unstable 2026-09-04,
-  nixos-unstable-small 2026-09-02, nixpkgs-unstable 2026-09-04, nixos-26.05
-  2026-09-03, nixos-26.05-small 2026-09-02).
+- **NixOS** (via `~/src/nixos/nixpkgs`; branch tips for `master` /
+  `release-26.05`, channel `git-revision` pins for the other five refs):
+  - `linux_default = packages.linux_6_18` at every tracked ref.
+  - Every tracked ref resolves the `6.18` series from `kernels-org.json`
+    above the `6.18.49` first-fixed release.
+  - Each row's *Current kernel* is that pinned `6.18` version.
+  - *Fixed since* for the branch rows is the commit date of the 6.18.49
+    bump: `ab787beb39ad` on master and `1dcdedad8777` on release-26.05,
+    both 2026-09-02.
+  - *Fixed since* for the channel rows comes from
+    `scripts/nixos-first-shipped`: nixos-unstable 2026-09-04,
+    nixos-unstable-small 2026-09-02, nixpkgs-unstable 2026-09-04,
+    nixos-26.05 2026-09-03, nixos-26.05-small 2026-09-02.
 - **Rocky Linux / RHEL family**: Red Hat's security data API
   (`access.redhat.com/hydra/rest/securitydata/cve/CVE-2026-80844.json`)
   `affected_release` carries fixes for the mainline `kernel` package on all
