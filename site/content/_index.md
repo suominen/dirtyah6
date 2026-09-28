@@ -114,7 +114,7 @@ row carries it from **v7.3-rc1**.
 | Debian | 13 (trixie) | 6.12.107-1 | — | — | :x: Vulnerable |
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.107-1~deb12u1 | — | — | :x: Vulnerable |
-| Proxmox VE | 9 (default) | 7.0.14-19-pve | 7.0.14-16-pve | 2026-08-28 | :white_check_mark: Fixed |
+| Proxmox VE | 9 (default) | 7.0.14-19 | 7.0.14-16 | 2026-08-28 | :white_check_mark: Fixed |
 | NixOS | master | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.54 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
