@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-28
+lastmod: 2026-09-29
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -111,7 +111,7 @@ row carries it from **v7.3-rc1**.
 | Linux kernel | 5.10.x | 5.10.270 | 5.10.269 | 2026-09-02 | :white_check_mark: Fixed — LTS |
 | Debian | sid (unstable) | 7.2.8-1 | 7.1.13-1 | 2026-09-03 | :white_check_mark: Fixed |
 | Debian | forky (testing) | 7.2.6-1 | 7.1.13-1 | 2026-09-11 | :white_check_mark: Fixed |
-| Debian | 13 (trixie) | 6.12.107-1 | — | — | :x: Vulnerable |
+| Debian | 13 (trixie) | 6.12.111-1 | 6.12.111-1 | 2026-09-29 | :white_check_mark: Fixed — DSA-6528-1 |
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.107-1~deb12u1 | — | — | :x: Vulnerable |
 | Proxmox VE | 9 (default) | 7.0.14-19 | 7.0.14-16 | 2026-08-28 | :white_check_mark: Fixed |
@@ -125,9 +125,9 @@ row carries it from **v7.3-rc1**.
 | Rocky Linux / RHEL | 10 | 6.12.0-211.60.1.el10_2 | 6.12.0-211.60.1.el10_2 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71233 |
 | Rocky Linux / RHEL | 9 | 5.14.0-687.52.1.el9_8 | 5.14.0-687.51.1.el9_8 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71232 |
 | Rocky Linux / RHEL | 8 | 4.18.0-553.168.1.el8_10 | 4.18.0-553.168.1.el8_10 | 2026-09-24 | :white_check_mark: Fixed — RHSA-2026:71213 |
-| Amazon Linux | 2023 (default) | 6.1.186-228.376 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.12 opt-in) | 6.12.103-129.197 | — | — | :x: Vulnerable — no ALAS yet |
-| Amazon Linux | 2023 (6.18 opt-in) | 6.18.48-109.150 | — | — | :x: Vulnerable — no ALAS yet |
+| Amazon Linux | 2023 (default) | 6.1.188-233.385 | 6.1.186-228.376 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3104 |
+| Amazon Linux | 2023 (6.12 opt-in) | 6.12.110-135.201 | 6.12.103-129.197 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3103 |
+| Amazon Linux | 2023 (6.18 opt-in) | 6.18.51-120.162 | 6.18.48-109.150 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3102 |
 {.distros}
 
 ### Linux kernel
@@ -150,10 +150,11 @@ or output path.
 forky is testing, the future Debian 14. bookworm's opt-in 6.12 kernel is
 the `linux-6.12` package, trixie's kernel rebuilt for bookworm.
 
-**On bookworm, the opt-in and the default kernel can differ.** While the
-opt-in is vulnerable and the default 6.1 kernel is fixed, a host that
-opted in should fall back to the default until a fixed `linux-6.12`
-ships.
+**Every default kernel in the table is now fixed; the bookworm opt-in is
+not.** sid, forky, trixie and bookworm's default kernels all carry the
+fix, but `linux-6.12` is a separate source package that has not been
+rebuilt from trixie's fixed source — a host that opted into it should
+fall back to the default kernel until a fixed `linux-6.12` ships.
 
 **bullseye (Debian 11) left LTS support on 2026-08-31**, before the fix
 reached any 5.10 point release. No fix is coming — upgrade to bookworm
@@ -229,9 +230,11 @@ advisories.
 ### Amazon Linux
 
 The three AL2023 streams are the default `kernel` package (6.1 line) and
-the opt-in `kernel6.12` and `kernel6.18` packages. Amazon routinely
-backports a fix into a build numbered *below* the upstream first fix, so
-judge an AL2023 kernel by its ALAS, not its version number.
+the opt-in `kernel6.12` and `kernel6.18` packages. All three streams
+shipped the fix in the build already current at disclosure — Amazon
+routinely backports into a build numbered *below* the upstream first
+fix, so the ALAS, not the version number, is what confirms a stream is
+fixed.
 
 ## Detection
 
@@ -395,9 +398,9 @@ readers never need it.
     sid has since moved to `7.2.6-1`.
   - forky resolved *fixed*; `7.1.13-1` migrated to testing 2026-09-11 (per
     tracker.debian.org news), the first fixed kernel in the suite.
-  - trixie *open*: `trixie` and `trixie-security` both at `6.12.107-1`,
-    below the 6.12 branch's `6.12.108` first fix — vulnerable, no fixed
-    build shipped.
+  - trixie resolved *fixed*; first fixed `6.12.111-1` via
+    `trixie-security`, shipped as **DSA-6528-1**; first seen
+    2026-09-29 per snapshot.debian.org.
   - bookworm resolved *fixed*; first fixed `6.1.187-1` via
     `bookworm-security`, shipped as **DLA-4777-1** (debian-lts-announce
     msg dated 2026-09-08). The `linux-6.12` opt-in source package is at
@@ -483,10 +486,15 @@ readers never need it.
   - The same record lists RHEL 9 and 10 `kernel-rt` as `known_affected`,
     but RHSA-2026:71232 and RHSA-2026:71233 also cover the RHEL 9.8 and
     10.2 RT and NFV products.
-- **Amazon Linux**: `scripts/alas-cve CVE-2026-80844` against the AL2023
-  `updateinfo.xml.gz` returns no advisory (exit 1) for any kernel stream.
-  Current builds queried from `primary.xml.gz`, highest `rel` per stream
-  (`kernel`, `kernel6.12`, `kernel6.18`) — all vulnerable pending an ALAS.
+- **Amazon Linux** (AL2023 `core` repo, resolved via `cdn.amazonlinux.com`
+  `mirrors/latest` guid indirection; `scripts/alas-cve CVE-2026-80844`
+  against `updateinfo.xml.gz`):
+  - `kernel` fixed by **ALAS2023-2026-3104**, build `6.1.186-228.376`,
+    issued 2026-09-18.
+  - `kernel6.12` fixed by **ALAS2023-2026-3103**, build
+    `6.12.103-129.197`, issued 2026-09-18.
+  - `kernel6.18` fixed by **ALAS2023-2026-3102**, build
+    `6.18.48-109.150`, issued 2026-09-18.
 {{< /details >}}
 
 ## References
