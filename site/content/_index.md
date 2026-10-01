@@ -3,7 +3,7 @@ title: "DirtyAH6 — IPv6 AH routing-header out-of-bounds write"
 description: "Linux kernel IPv6 AH6 routing-header out-of-bounds write (CVE-2026-80844, DirtyAH6) — unprivileged local root, and a remote crash/DoS on IPv6 AH-transport gateways — distro patch status tracker"
 layout: "single"
 date: 2026-09-18
-lastmod: 2026-09-30
+lastmod: 2026-10-01
 cover:
   image: "dirtyah6-tracker.png"
   alt: "DirtyAH6 — Linux kernel IPv6 AH6 routing-header out-of-bounds write tracker"
@@ -114,7 +114,7 @@ row carries it from **v7.3-rc1**.
 | Debian | 13 (trixie) | 6.12.111-1 | 6.12.111-1 | 2026-09-29 | :white_check_mark: Fixed — DSA-6528-1 |
 | Debian | 12 (bookworm, LTS) | 6.1.187-1 | 6.1.187-1 | 2026-09-08 | :white_check_mark: Fixed — DLA-4777-1 |
 | Debian | 12 (6.12 opt-in) | 6.12.107-1~deb12u1 | — | — | :x: Vulnerable |
-| Proxmox VE | 9 (default) | 7.0.14-19 | 7.0.14-16 | 2026-08-28 | :white_check_mark: Fixed |
+| Proxmox VE | 9 (default) | 7.0.14-20 | 7.0.14-16 | 2026-08-28 | :white_check_mark: Fixed |
 | NixOS | master | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | release-26.05 | 6.18.54 | 6.18.49 | 2026-09-02 | :white_check_mark: Fixed |
 | NixOS | Unstable | 6.18.54 | 6.18.49 | 2026-09-04 | :white_check_mark: Fixed |
@@ -125,9 +125,9 @@ row carries it from **v7.3-rc1**.
 | Rocky Linux / RHEL | 10 | 6.12.0-211.61.1.el10_2 | 6.12.0-211.60.1.el10_2 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71233 |
 | Rocky Linux / RHEL | 9 | 5.14.0-687.53.1.el9_8 | 5.14.0-687.51.1.el9_8 | 2026-09-25 | :white_check_mark: Fixed — RHSA-2026:71232 |
 | Rocky Linux / RHEL | 8 | 4.18.0-553.169.1.el8_10 | 4.18.0-553.168.1.el8_10 | 2026-09-24 | :white_check_mark: Fixed — RHSA-2026:71213 |
-| Amazon Linux | 2023 (default) | 6.1.188-233.385 | 6.1.186-228.376 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3104 |
-| Amazon Linux | 2023 (6.12 opt-in) | 6.12.110-135.201 | 6.12.103-129.197 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3103 |
-| Amazon Linux | 2023 (6.18 opt-in) | 6.18.51-120.162 | 6.18.48-109.150 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3102 |
+| Amazon Linux | 2023 (default) | 6.1.188-233.386 | 6.1.186-228.376 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3104 |
+| Amazon Linux | 2023 (6.12 opt-in) | 6.12.110-135.202 | 6.12.103-129.197 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3103 |
+| Amazon Linux | 2023 (6.18 opt-in) | 6.18.51-120.163 | 6.18.48-109.150 | 2026-09-18 | :white_check_mark: Fixed — ALAS2023-2026-3102 |
 {.distros}
 
 ### Linux kernel
