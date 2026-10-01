@@ -10,6 +10,11 @@ cover:
   hiddenInSingle: true
 ---
 
+*This tracker is no longer updated.  Every tracked kernel carries the
+fix except Debian bookworm's opt-in `linux-6.12` — a host booting that
+kernel should switch back to bookworm's default kernel, which is
+fixed.*
+
 ## Summary
 
 | Field | Detail |
@@ -89,8 +94,8 @@ A row is **Fixed** only if its kernel carries the [`7bad4bda74dc`][fix]
 backport; every AH6-capable kernel without it is in-window and
 **Vulnerable**. The first group is the upstream kernel; the rest are a
 focused set of x86-64 distributions, with per-distribution detail in the
-sections that follow. *First fixed* and *Fixed since* stay `—` until a row
-is fixed.
+sections that follow. *Current kernel* is each row's newest build when the
+tracker was last updated.
 
 Because the flaw predates the git era, there are **no "not affected"
 kernel rows** — no maintained line is old enough to escape it, so a kernel
@@ -150,11 +155,11 @@ or output path.
 forky is testing, the future Debian 14. bookworm's opt-in 6.12 kernel is
 the `linux-6.12` package, trixie's kernel rebuilt for bookworm.
 
-**Every default kernel in the table is now fixed; the bookworm opt-in is
+**Every default kernel in the table is fixed; the bookworm opt-in is
 not.** sid, forky, trixie and bookworm's default kernels all carry the
-fix, but `linux-6.12` is a separate source package that has not been
-rebuilt from trixie's fixed source — a host that opted into it should
-fall back to the default kernel until a fixed `linux-6.12` ships.
+fix, but `linux-6.12` is a separate source package that had not been
+rebuilt from trixie's fixed source when this tracker stopped — a host
+that opted into it should switch back to bookworm's default kernel.
 
 **bullseye (Debian 11) left LTS support on 2026-08-31**, before the fix
 reached any 5.10 point release. No fix is coming — upgrade to bookworm
@@ -334,7 +339,7 @@ exposing AH-transport processing to untrusted networks.
   out-of-bounds by a remote packet — a crash/DoS, and only with difficult
   on-target grooming anything worse.
 - **No "too old to be affected":** the flaw predates the git era, so old
-  LTS kernels are *not* safe by age. Every maintained upstream line now
+  LTS kernels are *not* safe by age. Every maintained upstream line
   carries the fix, but distro kernels adopt it independently — check the
   *First fixed* column for the distro in question, not the kernel's age.
 - **Backports available (CVE-2026-80844):** the fix has landed in mainline
